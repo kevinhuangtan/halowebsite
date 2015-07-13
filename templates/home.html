@@ -18,7 +18,7 @@
 <body>
 
 	<div>
-		<p>HaloTools Code Builder</p>
+		<h3>HaloTools Code Builder</p>
 	</div>
     <div id="example"></div>
     <script type="text/jsx">
@@ -194,6 +194,9 @@
 				}
 				retString += '}'
 			}
+			else{
+				retString += "select class to start"
+			}
 
 
 			console.log(retString)
@@ -232,7 +235,7 @@
 					    	<input type="text" className = "satelliteQuenching" placeholder="ordinates" ref="satelliteQuenchingOrdinates"/>
 					    </div>
 
-					    <input type="submit" value="Post" />
+					    <button id="submit-btn" type="submit">Build Code</button>
 			    	</form>
 			    	<div className="output">
 					    	<OutputBox output={this.state.output}/>
