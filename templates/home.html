@@ -76,7 +76,7 @@
 					retString += '\t' + "gal_type = '" + param1 + "',\n"
 				}
 				if(param2){
-					retString += '\t' + "prim_haloprop_key='" + param2 + "',"
+					retString += '\t' + "prim_haloprop_key='" + param2 + "'\n"
 				}
 				retString += ')\n'
 			}
@@ -89,7 +89,7 @@
 				var param4 = React.findDOMNode(this.refs.centralQuenchingOrdinates).value.trim();
 
 				if(param1){
-					retString += '&nbsp;&nbsp;' + "gal_type = '" + param1 + "',"
+					retString += "gal_type = '" + param1 + "',"
 					retString += "\n"
 
 				}
@@ -137,7 +137,7 @@
 					retString += '\t' + "prim_haloprop_key='" + param2 + "',"
 				}
 				if(param3){
-					retString += '\t' + "sec_haloprop_key='" + param2 + "',"
+					retString += '\t' + "sec_haloprop_key='" + param2 + "'"
 				}
 				retString += ')\n'
 			}
@@ -151,7 +151,7 @@
 				var param4 = React.findDOMNode(this.refs.satelliteQuenchingOrdinates).value.trim();
 
 				if(param1){
-					retString += '&nbsp;&nbsp;' + "gal_type = '" + param1 + "',"
+					retString +=  "gal_type = '" + param1 + "',"
 					retString += "\n"
 
 				}
@@ -183,13 +183,13 @@
 			}
 
 			if(centrals || satellites){
-				retString += 'model_blueprint = {'
+				retString += 'model_blueprint = {\n'
 				if(centrals){
-					retString += "'centrals': central_blueprint,\n"
+					retString += "\t'centrals': central_blueprint,\n"
 
 				}
 				if(satellites){
-					retString += "'satellites': satellite_blueprint\n"
+					retString += "\t'satellites': satellite_blueprint\n"
 
 				}
 				retString += '}'
