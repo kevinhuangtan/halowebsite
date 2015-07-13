@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="static/home.css">
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Caudex|Permanent+Marker|Playfair+Display+SC|Bangers|Cinzel+Decorative' rel='stylesheet' type='text/css'>
+	<script src="https://fb.me/react-0.13.3.js"></script>
+	<script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+</head>
+<script>
+	$(document).ready(function(){
+		// $('input').hide()
+
+	})
+</script>
+
+<body>
+
+	<div>
+		<p>HaloTools Code Builder</p>
+	</div>
+    <div id="example"></div>
+    <script type="text/jsx">
+
+    var OutputBox = React.createClass({
+    	getInitialState: function() {
+		    return {output: ''};
+		},
+    	render : function(){
+    		return (
+    			<div>
+	    			<div>&#47;&#47;build code from top, then copy and paste</div>
+	    			<p className = "textme">{this.props.output}</p>
+	    		</div>
+    		)
+
+    	}
+    })
+
+    var InputBox = React.createClass({
+	  	getInitialState: function() {
+		    return {inputVal: '', 
+			    classes: {
+			    	class1: {
+			    	},
+			    	class2: {
+			    	},
+			    	class3: {
+			    	},
+			    	class4: {
+			    	}
+			    }
+		    };
+		},
+		classUpdate : function(event) {
+			var className = event.target.id
+			$("." + className).toggle()
+		},
+		handleSubmit: function(e){
+			e.preventDefault();
+
+			var centrals = false;
+			var satellites = false;
+
+			var retString = ""
+			if($('#centralStellar').is(":checked")){
+
+				retString += 'central_stellar_mass_model = sm_models.StellarMassModel1('
+				retString += '\n'
+
+				var param1 = React.findDOMNode(this.refs.centralStellarGaltype).value.trim();
+				var param2 = React.findDOMNode(this.refs.centralStellarPrim).value.trim();
+
+				if(param1){
+					retString += '\t' + "gal_type = '" + param1 + "',\n"
+				}
+				if(param2){
+					retString += '\t' + "prim_haloprop_key='" + param2 + "',"
+				}
+				retString += ')\n'
+			}
+			if($('#centralQuenching').is(":checked")){
+				retString += 'central_quenching_model = sfr_models.QuenchingModel2('
+
+				var param1 = React.findDOMNode(this.refs.centralQuenchingGaltype).value.trim();
+				var param2 = React.findDOMNode(this.refs.centralQuenchingPrim).value.trim();
+				var param3 = React.findDOMNode(this.refs.centralQuenchingAbcissa).value.trim();
+				var param4 = React.findDOMNode(this.refs.centralQuenchingOrdinates).value.trim();
+
+				if(param1){
+					retString += '&nbsp;&nbsp;' + "gal_type = '" + param1 + "',"
+					retString += "\n"
+
+				}
+				if(param2){
+					retString += '\t' + "prim_haloprop_key='" + param2 + "',"
+					retString += "\n"
+				}
+				if(param3){
+					retString += '\t' + "abcissa='" + param3 + "',"
+					retString += '\n'
+				}
+				if(param4){
+					retString += '\t' + "ordinates='" + param4 + "'"
+					retString += '\n'
+				}
+				retString += ')\n'
+			}
+
+			if($('#centralStellar').is(":checked") || $('#centralQuenching').is(":checked")){
+				centrals = true
+				retString += 'central_blueprint = {\n'
+				if($('#centralStellar').is(":checked")){
+					retString += '\tcentral_stellar_mass_model.galprop_key: central_stellar_mass_model,\n'
+				}
+				if($('#centralQuenching').is(":checked")){
+					retString += '\tcentral_quenching_model.galprop_key: central_quenching_model\n'
+				}
+				retString += '}\n'
+			}
+
+
+			if($('#satelliteStellar').is(":checked")){
+
+				retString += 'satellite_stellar_mass_model = sm_models.StellarMassModel2('
+				retString += '\n'
+
+				var param1 = React.findDOMNode(this.refs.satelliteStellarGaltype).value.trim();
+				var param2 = React.findDOMNode(this.refs.satelliteStellarPrim).value.trim();
+				var param3 = React.findDOMNode(this.refs.satelliteStellarSec).value.trim();
+
+				if(param1){
+					retString += '\t' + "gal_type = '" + param1 + "',\n"
+				}
+				if(param2){
+					retString += '\t' + "prim_haloprop_key='" + param2 + "',"
+				}
+				if(param3){
+					retString += '\t' + "sec_haloprop_key='" + param2 + "',"
+				}
+				retString += ')\n'
+			}
+			if($('#satelliteQuenching').is(":checked")){
+				retString += 'satellite_quenching_model = sfr_models.QuenchingModel2('
+				retString += "\n"
+
+				var param1 = React.findDOMNode(this.refs.satelliteQuenchingGaltype).value.trim();
+				var param2 = React.findDOMNode(this.refs.satelliteQuenchingPrim).value.trim();
+				var param3 = React.findDOMNode(this.refs.satelliteQuenchingAbcissa).value.trim();
+				var param4 = React.findDOMNode(this.refs.satelliteQuenchingOrdinates).value.trim();
+
+				if(param1){
+					retString += '&nbsp;&nbsp;' + "gal_type = '" + param1 + "',"
+					retString += "\n"
+
+				}
+				if(param2){
+					retString += '\t' + "prim_haloprop_key='" + param2 + "',"
+					retString += "\n"
+				}
+				if(param3){
+					retString += '\t' + "abcissa='" + param3 + "',"
+					retString += '\n'
+				}
+				if(param4){
+					retString += '\t' + "ordinates='" + param4 + "'"
+					retString += '\n'
+				}
+				retString += ')\n'
+			}
+
+			if($('#satelliteStellar').is(":checked") || $('#satelliteQuenching').is(":checked")){
+				satellites = true;
+				retString += 'satellite_blueprint = {\n'
+				if($('#satelliteStellar').is(":checked")){
+					retString += '\tsatellite_stellar_mass_model.galprop_key: satellite_stellar_mass_model,\n'
+				}
+				if($('#satelliteQuenching').is(":checked")){
+					retString += '\tsatellite_quenching_model.galprop_key: satellite_quenching_model\n'
+				}
+				retString += '}\n'
+			}
+
+			if(centrals || satellites){
+				retString += 'model_blueprint = {'
+				if(centrals){
+					retString += "'centrals': central_blueprint,\n"
+
+				}
+				if(satellites){
+					retString += "'satellites': satellite_blueprint\n"
+
+				}
+				retString += '}'
+			}
+
+
+			console.log(retString)
+			this.setState({output: retString});
+
+			return
+
+		},
+		render: function() {
+		    return (
+		    	<div>
+			    	<form onSubmit={this.handleSubmit}>
+				    	<div className="input" >
+				    		<p><input type="checkbox" id="centralStellar" onChange={this.classUpdate}/>central stellar mass model</p>
+					    	<input type="text" className = "centralStellar" placeholder="gal type" ref="centralStellarGaltype"/> 
+					    	<input type="text" className = "centralStellar" placeholder="prim haloprop key" ref="centralStellarPrim"/>
+					    </div>
+					    <div className="input">
+				    		<p><input type="checkbox" id="centralQuenching" onChange={this.classUpdate}/>central quenching model</p>
+					    	<input type="text" className = "centralQuenching" placeholder="gal type" ref="centralQuenchingGaltype"/> 
+					    	<input type="text" className = "centralQuenching" placeholder="prim haloprop key" ref="centralQuenchingPrim"/>
+					    	<input type="text" className = "centralQuenching" placeholder="abcissa" ref="centralQuenchingAbcissa"/>
+					    	<input type="text" className = "centralQuenching" placeholder="ordinates" ref="centralQuenchingOrdinates"/>
+					    </div>
+					    <div className="input" >
+				    		<p><input type="checkbox" id="satelliteStellar" onChange={this.classUpdate}/>satellite stellar mass model</p>
+					    	<input type="text" className = "satelliteStellar" placeholder="gal type" ref="satelliteStellarGaltype"/> 
+					    	<input type="text" className = "satelliteStellar" placeholder="prim haloprop key" ref="satelliteStellarPrim"/>
+					    	<input type="text" className = "satelliteStellar" placeholder="sec haloprop key" ref="satelliteStellarSec"/>
+					    </div>
+					      <div className="input">
+				    		<p><input type="checkbox" id="satelliteQuenching" onChange={this.classUpdate}/>satellite quenching model</p>
+					    	<input type="text" className = "satelliteQuenching" placeholder="gal type" ref="satelliteQuenchingGaltype"/> 
+					    	<input type="text" className = "satelliteQuenching" placeholder="prim haloprop key" ref="satelliteQuenchingPrim"/>
+					    	<input type="text" className = "satelliteQuenching" placeholder="abcissa" ref="satelliteQuenchingAbcissa"/>
+					    	<input type="text" className = "satelliteQuenching" placeholder="ordinates" ref="satelliteQuenchingOrdinates"/>
+					    </div>
+
+					    <input type="submit" value="Post" />
+			    	</form>
+			    	<div className="output">
+					    	<OutputBox output={this.state.output}/>
+				    </div>
+			    </div>
+		    );
+		}
+    })
+
+
+
+	React.render(
+		React.createElement(InputBox),
+		document.getElementById('example')
+	);
+	// React.render(
+	// 	React.createElement(CommentBox, {name:'hola'}),
+	// 	document.getElementById('comments')
+	// );  <OutputBox value={value}/>
+
+    </script>
+</html>
