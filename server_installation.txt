@@ -1,0 +1,77 @@
+mkdir ~/halo
+cd ~/halo
+
+virtualenv haloenv
+
+source haloenv/bin/activate
+
+pip install gunicorn flask
+
+nano ~/halo/halo.py
+
+"
+from flask import Flask
+application = Flask(__name__)
+
+@application.route("/")
+def hello():
+    return "<h1 style='color:blue'>Hello There!</h1>"
+
+if __name__ == "__main__":
+    application.run(host='0.0.0.0')
+"
+
+
+python halo.py
+
+nano ~/halo/wsgi.py
+
+"
+from halo import application
+
+if __name__ == "__main__":
+    application.run()
+"
+
+cd ~/halo
+gunicorn --bind 0.0.0.0:8000 wsgi
+
+deactivate
+
+
+sudo nano /etc/init/halo.conf
+
+
+description "Gunicorn application server running halo"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+setuid kevin
+setgid www-data
+
+env PATH=/home/kevin/halo/haloenv/bin
+chdir /home/kevin/halo
+exec gunicorn --workers 3 --bind unix:halo.sock -m 007 wsgi
+
+
+sudo start halo
+
+
+sudo nano /etc/nginx/sites-available/halo
+
+server {
+    listen 80;
+    server_name 45.55.255.103;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/kevin/halo/halo.sock;
+    }
+}
+sudo ln -s /etc/nginx/sites-available/halo /etc/nginx/sites-enabled
+
+sudo nginx -t
+
+sudo service nginx restart

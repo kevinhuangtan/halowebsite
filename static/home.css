@@ -1,11 +1,10 @@
 body{
 	margin: 0;
-	padding: 1em;
+	padding: 2em;
 	background-color: white;
 	font-family: CourierNewPSMT;
-
-	text-align: center;
-	font-size: 20px;
+	text-align: left;
+	font-size: 18px;
 	color:black;
 }
 p{

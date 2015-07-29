@@ -10,7 +10,6 @@
 </head>
 <script>
 	$(document).ready(function(){
-		// $('input').hide()
 
 	})
 </script>
@@ -18,7 +17,7 @@
 <body>
 
 	<div>
-		<h3>HaloTools Code Builder</p>
+		<h3>HaloTools Code Builder: {{dataf}}</p>
 	</div>
     <div id="example"></div>
     <script type="text/jsx">
@@ -245,16 +244,11 @@
 		}
     })
 
-
-
 	React.render(
 		React.createElement(InputBox),
 		document.getElementById('example')
 	);
-	// React.render(
-	// 	React.createElement(CommentBox, {name:'hola'}),
-	// 	document.getElementById('comments')
-	// );  <OutputBox value={value}/>
+
 
     </script>
 </html>

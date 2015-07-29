@@ -1,0 +1,4 @@
+Procfile
+*.pyc
+*.DS_Store
+
