@@ -12,20 +12,30 @@ Zheng = hod_components.Zheng07Cens.__init__.__doc__
 Isotropic = gal_prof_factory.IsotropicGalProf.__init__.__doc__
 
 
-@application.route("/")
+@application.route("/", methods=['GET', 'POST'])
 def hello():
-    return render_template('test.html', Zheng = Zheng, Isotropic = Isotropic)
-
-
-@application.route("/test")
-def testtouch():
+    if (request.method == 'POST'):
+        print request.data
         os.system('sudo rm -r -f halotools')
         os.system('git clone https://github.com/astropy/halotools.git')
         path = 'halotools'
         filename = '__init__.py'
         open(os.path.join(path,filename),'w')
         os.system('sudo reload halo')
-        return "<h1 style='color:blue'>Edited</h1>"
+        return "<h1 style='color:blue'>Edited</h1>"        
+    else:
+        return render_template('test.html', Zheng = Zheng, Isotropic = Isotropic)
+
+
+@application.route("/test")
+def testtouch():
+    os.system('sudo rm -r -f halotools')
+    os.system('git clone https://github.com/astropy/halotools.git')
+    path = 'halotools'
+    filename = '__init__.py'
+    open(os.path.join(path,filename),'w')
+    os.system('sudo reload halo')
+    return "<h1 style='color:blue'>Edited</h1>"
 
 
 if __name__ == "__main__":

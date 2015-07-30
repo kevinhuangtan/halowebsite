@@ -1,0 +1,135 @@
+sudo rm -r -f halotools
+https://github.com/astropy/halotools.git
+path = 'halotools'
+filename = '__init__.py'
+open(os.path.join(path,filename),'w')
+
+
+test gunicorn --bind 0.0.0.0:8000 wsgi
+
+reload project:
+	sudo reload halo
+Remember to recreate __init__.py
+
+imports:
+
+from empirical_models import hod_components *
+
+print hod_components.Zheng07Cens.__init__.__doc__
+
+print hod_components.Leauthaud11Cens.__init__.__doc__
+
+print gal_prof_factory.IsotropicGalProf.__init__.__doc__
+
+from 
+
+centrals
+	Occ_Model
+		Zheng
+			Kargs
+		Leauthaud1
+			Kargs
+	Profile_Model
+		IsotropicGalProf
+			halo_prof_model
+				TrivialProfile
+					KArgs
+				NFWProfile'
+					KArgs
+			(KArgs)
+
+
+==========
+JUST TRY THIS:
+occ_model
+
+print hod_components.__all__
+print hod_components.Zheng07Cens.__init__.__doc__
+print hod_components.Zheng07Cens.__init__.__doc__
+
+__all__ = (
+	['OccupationComponent','Zheng07Cens','Kravtsov04Sats', 
+    'Leauthaud11Cens', 'Leauthaud11Sats']
+)
+
+class_list = ['Zheng07Cens']
+class_example = getattr(empirical_models, class_list[0])
+
+
+		
+(field)>gal_type : string, optional keyword argument < (seperate place)
+            Name of the galaxy population being modeled. Default is ``centrals``.  
+            ^description
+        threshold : float, optional keyword argument
+            Luminosity threshold of the mock galaxy sample. If specified, 
+            input value must agree with one of the thresholds used in Zheng07 to fit HODs: 
+            [-18, -18.5, -19, -19.5, -20, -20.5, -21, -21.5, -22].
+            Default value is specified in the `~halotools.empirical_models.model_defaults` module.
+
+        prim_haloprop_key : string, optional keyword argument 
+            String giving the column name of the primary halo property governing 
+            the occupation statistics of gal_type galaxies. 
+            Default value is specified in the `~halotools.empirical_models.model_defaults` module.
+
+==========
+IsotropicGalProf
+
+
+
+HOD Models:
+
+	uber = 
+	{
+		'cens': galtype_dict,
+		'sats': another_dict
+	}
+
+	gal_type_dict = 
+	{
+		'occupation':occ_model,
+		'profile': prof_model
+	}
+==========
+SUBMIT
+
+
+### Build model for centrals
+	cen_key = 'centrals'
+	cen_model_dict = {}
+	# Build the occupation model
+	dark_side_cen_model = hoc.Zheng07Cens(gal_type=cen_key, 
+		threshold = threshold)
+	cen_model_dict['occupation'] = dark_side_cen_model
+	# Build the profile model
+	cen_profile = gpf.IsotropicGalProf(
+		gal_type=cen_key, halo_prof_model=hpc.TrivialProfile)
+	cen_model_dict['profile'] = cen_profile
+
+	### Build model for satellites
+	sat_key = 'satellites'
+	sat_model_dict = {}
+	# Build the occupation model
+	dark_side_sat_model = hoc.Kravtsov04Sats(gal_type=sat_key, 
+		threshold = threshold)
+	sat_model_dict['occupation'] = dark_side_sat_model
+	# Build the profile model
+	sat_profile = gpf.IsotropicGalProf(
+		gal_type=sat_key, halo_prof_model=hpc.NFWProfile)
+	sat_model_dict['profile'] = sat_profile
+
+	model_blueprint = {
+		dark_side_cen_model.gal_type : cen_model_dict,
+		dark_side_sat_model.gal_type : sat_model_dict, 
+		'mock_factory' : mock_factories.HodMockFactory
+		}
+
+	return model_blueprint
+
+
+
+
+
+
+
+
+
