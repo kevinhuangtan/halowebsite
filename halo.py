@@ -1,4 +1,4 @@
-#update when github webhook
+#update when github pull
 from flask import Flask, render_template, request
 import os
 from halotools.halotools.empirical_models import hod_components
