@@ -16,6 +16,7 @@ Isotropic = gal_prof_factory.IsotropicGalProf.__init__.__doc__
 def hello():
     if (request.method == 'POST'):
         print 'post'
+        print request.json
         print request.data
         os.system('sudo rm -r -f halotools')
         os.system('git clone https://github.com/astropy/halotools.git')
