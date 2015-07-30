@@ -14,7 +14,6 @@ Isotropic = gal_prof_factory.IsotropicGalProf.__init__.__doc__
 
 @application.route("/", methods=['GET', 'POST'])
 def hello():
-    print 'hello'
     if (request.method == 'POST'):
         print 'post'
         print request.data
@@ -26,12 +25,13 @@ def hello():
         os.system('sudo reload halo')
         return "<h1 style='color:blue'>Edited</h1>"        
     else:
-        print 'normal'
+        print 'normal request'
         return render_template('test.html', Zheng = Zheng, Isotropic = Isotropic)
 
 
-@application.route("/test")
-def testtouch():
+@application.route("/payload")
+def payload_text():
+    print 'test payload'
     os.system('sudo rm -r -f halotools')
     os.system('git clone https://github.com/astropy/halotools.git')
     path = 'halotools'
