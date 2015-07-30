@@ -1,3 +1,4 @@
+#update when github webhook
 from flask import Flask, render_template, request
 import os
 from halotools.halotools.empirical_models import hod_components
@@ -14,7 +15,7 @@ Isotropic = gal_prof_factory.IsotropicGalProf.__init__.__doc__
 @application.route("/", methods=['GET', 'POST'])
 def hello():
     if (request.method == 'POST'):
-        
+        print 'post request'
         os.system('sudo rm -r -f halotools')
         os.system('git clone https://github.com/astropy/halotools.git')
         path = 'halotools'
