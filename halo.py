@@ -14,8 +14,7 @@ Isotropic = gal_prof_factory.IsotropicGalProf.__init__.__doc__
 @application.route("/", methods=['GET', 'POST'])
 def hello():
     if (request.method == 'POST'):
-        print 'post'
-        print request.json['html_url']
+        
         os.system('sudo rm -r -f halotools')
         os.system('git clone https://github.com/astropy/halotools.git')
         path = 'halotools'
