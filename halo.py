@@ -14,6 +14,7 @@ Isotropic = gal_prof_factory.IsotropicGalProf.__init__.__doc__
 
 @application.route("/", methods=['GET', 'POST'])
 def hello():
+    os.system('sudo reload halo')
     if (request.method == 'POST'):
         print 'post request'
         os.system('sudo rm -r -f halotools')
