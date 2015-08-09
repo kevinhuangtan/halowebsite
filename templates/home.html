@@ -17,18 +17,38 @@
 	               .replace(/\\f/g, "\\f");
 	};
 	$(document).ready(function(){
-		var zheng = {{ Zheng | tojson | safe }};
+
+		var Components = {{ components | tojson | safe }};
+
+		var zheng = Components[0]
 		var zheng_params = zheng[1]
-		// var zhengString = JSON.stringify(zheng[1])
-		// var zhengStringEscaped = zhengString.escapeSpecialChars();
-        console.log(zheng_params[0]);
         for (var i = 0; i < zheng_params.length; i++){
-        	$('#zheng').append("<p>Paramter "+(i+1)+" </p>");
-        	$('#zheng').append("<p>name: "+ zheng_params[i]['name'] +"</p>");
-        	$('#zheng').append("<p>type: "+ zheng_params[i]['type'] +"</p>");
-        	$('#zheng').append("<p>description: "+ zheng_params[i]['description'] +"</p>");
-        	console.log(zheng_params[i]['description'])
+        	$('#zheng').append("<p class='tier4'>"+ zheng_params[i]['name'] +" <input size='15'></p>");
+        	$('#zheng').append("<p class='tier4 tier4-details'>type: "+ zheng_params[i]['type'] +"</p>");
+        	$('#zheng').append("<p class='tier4 tier4-details'>"+ zheng_params[i]['description'] +"</p>");
         }
+
+		var leauthaud = Components[1]
+		var leauthaud_params = leauthaud[1]
+        for (var i = 0; i < leauthaud_params.length; i++){
+        	$('#leauthaud').append("<p class='tier4'>"+ leauthaud_params[i]['name'] +" <input size='15'></p>");
+        	$('#leauthaud').append("<p class='tier4 tier4-details'>type: "+ leauthaud_params[i]['type'] +"</p>");
+        	$('#leauthaud').append("<p class='tier4 tier4-details'>"+ leauthaud_params[i]['description'] +"</p>");
+        }
+        $('.tier1-header').click(function(){
+        	$(this).siblings('.tier2').toggle()
+        	$(this).toggleClass('selected')
+        })
+        $('.tier2-header').click(function(){
+        	$(this).siblings('.tier3').toggle()
+        	$(this).toggleClass('selected')
+        })
+        $('.tier3-header').click(function(){
+        	$(this).siblings('.tier4').toggle()
+        	$(this).toggleClass('selected')
+        })
+
+
 
 
 	})
@@ -41,17 +61,28 @@
 
 <body>
 
-	<h1>HaloTools</h1>
-<!-- 	<div>
-		<p>Centrals</p>
-		<p>Occ_Model</p>
-		<p>Zheng</p>
-		<p id="zheng-kargs"></p>
-		<p>Leauthaud1</p>
-	</div> -->
-	<div id="zheng">
-		<h3>Zheng</h3>
-	</div>
+	<h2 style="text-align:center">HaloTools Model Builder</h2>
+
+	<form id="main">
+		<div id="centrals" class="tier1"> 
+			<span class="tier1-header tier-header">centrals</span>
+			<div id="occ_model" class="tier2">
+				<span class="tier2-header tier-header">Occ Model</span>
+				<div id="zheng" class="tier3">
+					<span class="tier3-header tier-header">Zheng07Cens</span>
+				</div>
+				<div id="leauthaud" class="tier3">
+					<span class="tier3-header tier-header">Leauthaud11Cens</span>
+				</div>
+			</div>
+			<div id="profile_model" class="tier2">
+				<span class="tier2-header tier-header">Profile Model</span>
+			</div>
+		</div>
+		<div id="centrals" class="tier1">
+			<span class="tier1-header tier-header">satellites</span>
+		</div>
+	</form>
 
 </body>   
 

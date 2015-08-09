@@ -11,62 +11,33 @@ from halotools.halotools.empirical_models import gal_prof_factory
 application = Flask(__name__)
 
 
-Zheng = [hod_components.Zheng07Cens.__init__.__doc__, 'hola']
 
-Isotropic = gal_prof_factory.IsotropicGalProf.__init__.__doc__
+Zheng = [hod_components.Zheng07Cens.__init__.__doc__, 'replace']
+Leauthaud = [hod_components.Leauthaud11Sats.__init__.__doc__, 'replace']
 
-#probably a more elegant way to do this
-cutRE = re.findall( '----------\n(.*?)Examples', Zheng[0], re.DOTALL)
-# print cutRE
-print cutRE[0]
-# parametersRE = re.findall( '        (.*?)\n', cutRE[0], re.DOTALL)
+Components = [Zheng, Leauthaud]
 
+for j in range(0, len(Components)):
+    #probably a more elegant way to do this
+    cutRE = re.findall( '----------\n(.*?)Examples', Components[j][0], re.DOTALL)
+    param_name = re.findall(r'\w+\s\:', cutRE[0]);
+    for i, val in enumerate(param_name):
+        param_name[i] = param_name[i][:-2]
 
+    paramters_length = len(param_name)
+    
+    param_type = re.findall(r':\s.+', cutRE[0]);
+    for i, val in enumerate(param_type):
+        param_type[i] = param_type[i][2:]
 
-param_name = re.findall(r'\w+\s\:', cutRE[0]);
-for i, val in enumerate(param_name):
-    param_name[i] = param_name[i][:-2]
-
-paramters_length = len(param_name)
-
-param_type = re.findall(r':\s.+', cutRE[0]);
-for i, val in enumerate(param_type):
-    param_type[i] = param_type[i][2:]
-
-
-# print param_type
-param_descr = re.findall(r'\n\s\s\s\s\s\s\s\s\s\s\s\s.+\n\n', cutRE[0])
-
-for i in range(0, paramters_length):
-    param_descr[i] = param_descr[i][13:-2]
-
-#construct
-parameters = []
-for i, val in enumerate(param_name):
-    parameters.append({'name': param_name[i], 'type': param_type[i], 'description': param_descr[i]})
-
-print parameters
-
-Zheng[1] = parameters
-# print n
-# for line in parametersRE:
-    # param_name = re.search(r'\w+\s\:', line);
-    # if(param_name):
-    #     print param_name.group()[:-2]
-    # param_type = re.search(r':\s[\w\s,]+', line);
-    # if(param_type):
-    #     print param_type.group()[2:]
-    # print line
-    # param_descr = re.search(r'\s\s\s\s[\w\s]+', line)
-
-    # if(param_descr):
-    #     print param_descr.group()
-
-
-    # new_param = re.search(r'\n',line)
-
-    # if(new_param):
-    #     print 'new param'
+    param_descr = re.findall(r'\n\s\s\s\s\s\s\s\s\s\s\s\s.+\n\n', cutRE[0])
+    for i in range(0, paramters_length):
+        param_descr[i] = param_descr[i][13:-2]
+    
+    parameters = []
+    for i, val in enumerate(param_name):
+        parameters.append({'name': param_name[i], 'type': param_type[i], 'description': param_descr[i]})
+    Components[j][1] = parameters
 
 @application.route("/", methods=['GET', 'POST'])
 def hello():
@@ -82,7 +53,7 @@ def hello():
     else:
         print 'normal request'
         # print Zheng[0]
-        return render_template('home.html', Zheng = Zheng, Isotropic = Isotropic)
+        return render_template('home.html', components = Components)
 
 
 @application.route("/payload")

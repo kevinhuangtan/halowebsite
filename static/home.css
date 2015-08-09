@@ -9,6 +9,7 @@ body{
 }
 p{
 	margin: .5em
+
 }
 input{
 	font-family: CourierNewPSMT;
@@ -62,6 +63,53 @@ button:focus {outline:0 !important;}
 	text-align: left;
 
 }
+#main p{
+
+}
 .hidden{
 	display: none;
 }
+.tier-header{
+	cursor: pointer;
+	opacity: .3;
+	transition: opacity .2s;
+}
+.tier-header:hover{
+	opacity: 1;
+}
+.tier1{
+	margin-left: 1em;
+}
+
+.tier2{
+	margin-left: 2em;
+	display: none;
+}
+
+.tier3{
+	margin-left: 3em;
+	display: none;
+}
+.tier4{
+	display: none;
+	margin-left: 4em;
+	font-size: 14px;
+}
+.tier4-details{
+	margin-left: 6em;
+}
+.tier4 input{
+	display: inline-block;
+	margin: 0;
+	margin-left: 1em;
+
+}
+.selected{
+	opacity: 1;
+}
+/*.selected:hover{
+	opacity: .6
+}*/
+
+
+
