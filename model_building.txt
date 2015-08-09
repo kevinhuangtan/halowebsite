@@ -5,7 +5,8 @@ filename = '__init__.py'
 open(os.path.join(path,filename),'w')
 
 
-test gunicorn --bind 0.0.0.0:8000 wsgi
+test 
+gunicorn --bind 0.0.0.0:8000 wsgi
 
 reload project:
 	sudo reload halo
